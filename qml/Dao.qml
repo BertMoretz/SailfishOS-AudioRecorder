@@ -1,8 +1,9 @@
-import QtQuick 2.0
+import QtQuick 2.6
 import QtQuick.LocalStorage 2.0
-
+import QtMultimedia 5.6
 
 Item {
+    property var defaultSaveLocation: "/home/nemo/Documents" //StandardPaths.documents
 
     property var database
     property var recs
@@ -21,11 +22,11 @@ Item {
                  Value TEXT)");
             if (tx.executeSql("SELECT COUNT(*) as count FROM Settings").rows.item(0).count === 0) {
                 tx.executeSql("INSERT INTO Settings (Key, Value)
-                    VALUES ('Quality', 'normal'), ('ContainerFormat', 'wav')");
+                    VALUES ('Quality', 'normal'), ('ContainerFormat', 'wav'), ('SaveLocation', ?)", [defaultSaveLocation]);
             }
             readSettings(function(settings) {
-                if (!settings.Quality || !settings.ContainerFormat) {
-                    writeSettings({Quality: "normal", ContainerFormat: "wav"});
+                if (!settings.Quality || !settings.ContainerFormat || !settings.SaveLocation) {
+                    writeSettings({Quality: "normal", ContainerFormat: "wav", SaveLocation: defaultSaveLocation});
                 }
             });
         });

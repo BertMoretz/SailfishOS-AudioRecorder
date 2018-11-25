@@ -11,7 +11,9 @@ Page {
         anchors.fill: parent
         id: dict
         property string fileName: ""
-        property string filePath: StandardPaths.documents + "/" + fileName + ".wav"
+        property string saveLocation: StandardPaths.documents
+        property string format: "wav"
+        property string filePath: saveLocation + "/" + fileName + "." + format
 
         PullDownMenu {
             MenuItem {
@@ -168,6 +170,8 @@ Page {
     function reloadSettings() {
         dao.readSettings(function(settings) {
             audioRecorder.configure(settings.Quality, settings.ContainerFormat);
+            dict.format = settings.ContainerFormat;
+            dict.saveLocation = settings.SaveLocation;
         })
     }
 

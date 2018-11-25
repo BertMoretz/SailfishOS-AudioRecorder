@@ -49,12 +49,32 @@ Dialog {
                 }
             }
         }
+
+        ComboBox {
+            id: saveLocation
+            width: parent.width
+            label: "Save Location"
+
+            menu: ContextMenu {
+                MenuItem { text: StandardPaths.download }
+                MenuItem { text: StandardPaths.documents }
+                MenuItem { text: StandardPaths.music }
+                MenuItem { text: StandardPaths.videos }
+            }
+
+            onCurrentItemChanged: {
+                if (initDone) {
+                    updateSettings();
+                }
+            }
+        }
     }
 
     function updateSettings() {
         dao.writeSettings({
             Quality: quality.currentItem.text,
             ContainerFormat: format.currentItem.text,
+            SaveLocation: saveLocation.currentItem.text,
         });
     }
 
@@ -68,6 +88,11 @@ Dialog {
            for (var i = 0; i < format.menu.children.length; i ++) {
                if (format.menu.children[i].text === settings.ContainerFormat) {
                    format.currentIndex = i;
+               }
+           }
+           for (var i = 0; i < saveLocation.menu.children.length; i ++) {
+               if (saveLocation.menu.children[i].text === settings.SaveLocation) {
+                   saveLocation.currentIndex = i;
                }
            }
            initDone = true;

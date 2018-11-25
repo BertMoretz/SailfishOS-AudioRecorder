@@ -4,17 +4,17 @@
 <context>
     <name>DictaphonePage</name>
     <message>
-        <location filename="../qml/pages/DictaphonePage.qml" line="24"/>
+        <location filename="../qml/pages/DictaphonePage.qml" line="61"/>
         <source>Dictaphone</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/DictaphonePage.qml" line="27"/>
+        <location filename="../qml/pages/DictaphonePage.qml" line="64"/>
         <source>Recorded duration</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/DictaphonePage.qml" line="33"/>
+        <location filename="../qml/pages/DictaphonePage.qml" line="71"/>
         <source>Player position</source>
         <translation type="unfinished"></translation>
     </message>
@@ -60,7 +60,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/PlaylistPage.qml" line="41"/>
+        <location filename="../qml/pages/PlaylistPage.qml" line="55"/>
         <source>Select music</source>
         <translation type="unfinished"></translation>
     </message>
@@ -68,13 +68,19 @@
 <context>
     <name>SoundEffectPage</name>
     <message>
-        <location filename="../qml/pages/SoundEffectPage.qml" line="12"/>
+        <location filename="../qml/pages/SoundEffectPage.qml" line="16"/>
         <source>Sound Effect</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/SoundEffectPage.qml" line="29"/>
+        <location filename="../qml/pages/SoundEffectPage.qml" line="42"/>
         <source>Volume</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/SoundEffectPage.qml" line="53"/>
+        <location filename="../qml/pages/SoundEffectPage.qml" line="65"/>
+        <source>Loops</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

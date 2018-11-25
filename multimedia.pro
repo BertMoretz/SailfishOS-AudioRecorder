@@ -4,10 +4,12 @@ CONFIG += sailfishapp
 
 SOURCES += \
     src/multimedia.cpp \
-    src/AudioRecorder.cpp
+    src/AudioRecorder.cpp \
+    src/FileApi.cpp
 
 HEADERS += \
-    src/AudioRecorder.h
+    src/AudioRecorder.h \
+    src/FileApi.h
 
 DISTFILES += \
     qml/* \

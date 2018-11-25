@@ -1,6 +1,7 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
 import ".."
+import Multimedia 1.0
 
 Page {
     Dao {id: dao}
@@ -59,8 +60,8 @@ Page {
                 MenuItem {
                     text: "Remove"
                     onClicked: {
-//                        var file = new QFile(path);
-//                        file.remove();
+                        console.log('delete', path)//REMOVE
+                        fileApi.remove(path);
                         dao.removeRecord(id);
                         selectRecs();
                     }
@@ -77,6 +78,10 @@ Page {
                 listModel.append({id: rec.id, "nam": rec.Name, "note": rec.Note, "path": rec.Path});
             }
         });
+    }
+
+    FileApi {
+        id: fileApi
     }
 
     Component.onCompleted: {
