@@ -10,11 +10,24 @@ Item {
     Component.onCompleted: {
         database = LocalStorage.openDatabaseSync("records", "1.0")
         database.transaction(function(tx) {
+//            tx.executeSql("DROP TABLE Settings");return
             tx.executeSql("CREATE TABLE IF NOT EXISTS Records(
                  id INTEGER PRIMARY KEY AUTOINCREMENT,
                  Name TEXT,
                  Note TEXT,
                  Path TEXT)");
+            tx.executeSql("CREATE TABLE IF NOT EXISTS Settings(
+                 Key TEXT,
+                 Value TEXT)");
+            if (tx.executeSql("SELECT COUNT(*) as count FROM Settings").rows.item(0).count === 0) {
+                tx.executeSql("INSERT INTO Settings (Key, Value)
+                    VALUES ('Quality', 'normal'), ('ContainerFormat', 'wav')");
+            }
+            readSettings(function(settings) {
+                if (!settings.Quality || !settings.ContainerFormat) {
+                    writeSettings({Quality: "normal", ContainerFormat: "wav"});
+                }
+            });
         });
         //updateStatisticsValue();
     }
@@ -76,6 +89,28 @@ Item {
         database.readTransaction(function(tx) {
             var result = tx.executeSql("SELECT * FROM Records;");
             callback(result.rows)
+        });
+    }
+
+    function readSettings(callback) {
+        database = LocalStorage.openDatabaseSync("records", "1.0");
+        database.readTransaction(function(tx) {
+            var result = tx.executeSql("SELECT * FROM Settings;");
+            var settings = new Object();
+            for (var i = 0; i < result.rows.length; i++) {
+                var item = result.rows.item(i);
+                settings[item.Key] = item.Value;
+            }
+            callback(settings);
+        });
+    }
+
+    function writeSettings(settings) {
+        database = LocalStorage.openDatabaseSync("records", "1.0");
+        database.transaction(function(tx) {
+            for (var key in settings) {
+                tx.executeSql("UPDATE Settings SET Value = ? WHERE Key = ?", [settings[key], key]);
+            }
         });
     }
 }

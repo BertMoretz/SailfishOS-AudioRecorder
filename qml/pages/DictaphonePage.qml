@@ -20,7 +20,14 @@ Page {
             }
             MenuItem {
                 text: "Settings"
-                onClicked: console.log("Clicked option 2")
+                onClicked: {
+                    function done() {
+                        reloadSettings();
+                    }
+                    var dialog = pageStack.push(Qt.resolvedUrl('./SettingsDialog.qml'));
+                    dialog.accepted.connect(done);
+                    dialog.rejected.connect(done);
+                }
             }
         }
 
@@ -156,5 +163,15 @@ Page {
 
             // ToDo: control buttons visibility
         }
+    }
+
+    function reloadSettings() {
+        dao.readSettings(function(settings) {
+            audioRecorder.configure(settings.Quality, settings.ContainerFormat);
+        })
+    }
+
+    Component.onCompleted: {
+        reloadSettings();
     }
 }
