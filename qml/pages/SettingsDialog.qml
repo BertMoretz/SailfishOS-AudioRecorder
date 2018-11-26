@@ -41,6 +41,26 @@ Dialog {
             menu: ContextMenu {
                 MenuItem { text: "wav" }
                 MenuItem { text: "ogg" }
+                MenuItem { text: "avi" }
+            }
+
+            onCurrentItemChanged: {
+                if (initDone) {
+                    updateSettings();
+                }
+            }
+        }
+
+        ComboBox {
+            id: codec
+            width: parent.width
+            label: "Audio Codec"
+
+            menu: ContextMenu {
+                MenuItem { text: "audio/PCM" }
+                MenuItem { text: "audio/vorbis" }
+                MenuItem { text: "audio/speex" }
+                MenuItem { text: "audio/FLAC" }
             }
 
             onCurrentItemChanged: {
@@ -75,6 +95,7 @@ Dialog {
             Quality: quality.currentItem.text,
             ContainerFormat: format.currentItem.text,
             SaveLocation: saveLocation.currentItem.text,
+            Codec: codec.currentItem.text,
         });
     }
 
@@ -93,6 +114,11 @@ Dialog {
            for (var i = 0; i < saveLocation.menu.children.length; i ++) {
                if (saveLocation.menu.children[i].text === settings.SaveLocation) {
                    saveLocation.currentIndex = i;
+               }
+           }
+           for (var i = 0; i < codec.menu.children.length; i ++) {
+               if (codec.menu.children[i].text === settings.Codec) {
+                   codec.currentIndex = i;
                }
            }
            initDone = true;

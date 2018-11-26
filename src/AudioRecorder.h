@@ -52,7 +52,7 @@ class AudioRecorder : public QAudioRecorder
 public:
     explicit AudioRecorder(QObject *parent = 0);
 
-    Q_INVOKABLE void configure(QString quality, QString containerFormat);
+    Q_INVOKABLE void configure(QString quality, QString containerFormat, QString codec);
 };
 
 #endif // AUDIORECORDER_H

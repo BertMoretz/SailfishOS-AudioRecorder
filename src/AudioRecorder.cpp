@@ -39,17 +39,24 @@
 
 AudioRecorder::AudioRecorder(QObject *parent) : QAudioRecorder(parent)
 {
-    this->configure("normal", "wav");
+    this->configure("normal", "wav", "audio/PCM");
 }
 
-void AudioRecorder::configure(QString quality, QString containerFormat) {
+void AudioRecorder::configure(QString quality, QString containerFormat, QString codec) {
     if (quality == "low" || quality == "normal" || quality == "high") {
         QAudioEncoderSettings audioSettings;
-        audioSettings.setCodec("audio/PCM");
+        //audioSettings.setCodec("audio/PCM");
         audioSettings.setQuality(quality == "low" ? QMultimedia::LowQuality : quality == "normal" ? QMultimedia::NormalQuality : QMultimedia::HighQuality);
         this->setEncodingSettings(audioSettings);
     }
-    if (containerFormat == "wav" || containerFormat == "ogg") {
+    if (containerFormat == "wav" || containerFormat == "ogg" || containerFormat == "avi") {
         this->setContainerFormat(containerFormat);
+        foreach ( const QString &containerName, this->supportedAudioCodecs()) {
+                //qInfo(containerName);
+                QMessageLogger().debug() << containerName;
+            }
+    }
+    if (codec == "audio/PCM" || codec == "audio/vorbis" || codec == "audio/speex" || codec == "audio/FLAC") {
+        this->audioSettings().setCodec(codec);
     }
 }

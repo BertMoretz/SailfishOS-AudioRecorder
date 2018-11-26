@@ -169,7 +169,7 @@ Page {
 
     function reloadSettings() {
         dao.readSettings(function(settings) {
-            audioRecorder.configure(settings.Quality, settings.ContainerFormat);
+            audioRecorder.configure(settings.Quality, settings.ContainerFormat, settings.Codec);
             dict.format = settings.ContainerFormat;
             dict.saveLocation = settings.SaveLocation;
         })

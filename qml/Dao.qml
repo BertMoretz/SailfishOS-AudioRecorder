@@ -22,11 +22,14 @@ Item {
                  Value TEXT)");
             if (tx.executeSql("SELECT COUNT(*) as count FROM Settings").rows.item(0).count === 0) {
                 tx.executeSql("INSERT INTO Settings (Key, Value)
-                    VALUES ('Quality', 'normal'), ('ContainerFormat', 'wav'), ('SaveLocation', ?)", [defaultSaveLocation]);
+                    VALUES ('Quality', 'normal'), ('ContainerFormat', 'wav'), ('SaveLocation', ?), ('Codec', 'audio/PCM')", [defaultSaveLocation]);
             }
             readSettings(function(settings) {
-                if (!settings.Quality || !settings.ContainerFormat || !settings.SaveLocation) {
-                    writeSettings({Quality: "normal", ContainerFormat: "wav", SaveLocation: defaultSaveLocation});
+                if (!settings.Quality || !settings.ContainerFormat || !settings.SaveLocation || !settings.Codec) {
+                    tx.executeSql("DELETE FROM Settings");
+                    tx.executeSql("INSERT INTO Settings (Key, Value)
+                        VALUES ('Quality', ''), ('ContainerFormat', ''), ('SaveLocation', ?), ('Codec', '')", [defaultSaveLocation]);
+                    writeSettings({Quality: "normal", ContainerFormat: "wav", SaveLocation: defaultSaveLocation, Codec: "audio/PCM"});
                 }
             });
         });
@@ -114,5 +117,6 @@ Item {
             }
         });
     }
+
 }
 
