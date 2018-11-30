@@ -13,6 +13,9 @@ Page {
     Audio {
         id: player
         source: recordPath
+        onPositionChanged: {
+            progressBar.value = position
+        }
     }
 
     Column {
@@ -34,14 +37,23 @@ Page {
            font.italic: true
         }
 
-        ProgressBar {
-            //anchors.bottom: playerPage.bottom
+        Slider {
             id: progressBar
-            width: playerPage.width
-            x: Theme.paddingSmall
+            stepSize: 0.01
+            //label: qsTr("Player position")
+            width: parent.width
+//                value: audioPlayer.position
             minimumValue: 0
             maximumValue: player.duration
-            value: player.position
+            valueText: value/1000
+            // ToDo: set value, minimumValue, maximumValue and valueText properties
+//                enabled: false
+            down: true
+            visible: audioRecorder.state != AudioRecorder.RecordingState && audioRecorder.state != AudioRecorder.PausedState
+            onValueChanged: {
+                if (down)//Math.abs(value - audioPlayer.position) > 0.1)
+                player.seek(value)
+            }
         }
     }
 

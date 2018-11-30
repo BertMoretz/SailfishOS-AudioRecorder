@@ -19,4 +19,20 @@
         <translation type="unfinished"></translation>
     </message>
 </context>
+<context>
+    <name>DirectoryPage</name>
+    <message>
+        <location filename="../qml/pages/DirectoryPage.qml" line="36"/>
+        <source>No files</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>RecordsListPage</name>
+    <message>
+        <location filename="../qml/pages/RecordsListPage.qml" line="11"/>
+        <source>All Records</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
 </TS>

@@ -53,7 +53,9 @@ Page {
             id: audioPlayer
             source: dict.filePath
             autoLoad: true
-
+            onPositionChanged: {
+                playInfo.value = position
+            }
 
         }
         Column {
@@ -64,22 +66,27 @@ Page {
             ValueDisplay {
                 id: recordInfo
                 label: qsTr("Recorded duration")
-                value: audioPlayer.duration / 1000
+                value: audioRecorder.duration / 1000
                 // ToDo: set text property to show recorded duration in seconds
                 width: parent.width
             }
             Slider {
                 id: playInfo
+                stepSize: 0.01
                 label: qsTr("Player position")
                 width: parent.width
-                value: audioPlayer.position
+//                value: audioPlayer.position
                 minimumValue: 0
                 maximumValue: audioPlayer.duration
                 valueText: value/1000
                 // ToDo: set value, minimumValue, maximumValue and valueText properties
-                enabled: false
+//                enabled: false
                 down: true
-                handleVisible: false
+                visible: audioRecorder.state != AudioRecorder.RecordingState && audioRecorder.state != AudioRecorder.PausedState
+                onValueChanged: {
+                    if (down)//Math.abs(value - audioPlayer.position) > 0.1)
+                    audioPlayer.seek(value)
+                }
             }
         }
         Row {
@@ -91,28 +98,23 @@ Page {
             }
             spacing: Theme.paddingLarge
             IconButton {
-                icon.source: "image://theme/icon-m-call-recording-on?" + (pressed
-                                                ? Theme.highlightColor
-                                                : Theme.primaryColor)
+                icon.source: "image://theme/icon-m-call-recording-on"
                 onClicked: {
-                    dict.fileName = new Date().toISOString().replace(/\.|:/g, "-");
+                    if (audioRecorder.state != AudioRecorder.PausedState)
+                     dict.fileName = new Date().toISOString().replace(/\.|:/g, "-");
                     audioRecorder.record()
                 }
                 visible: audioRecorder.state != AudioRecorder.RecordingState && audioPlayer.playbackState == Audio.StoppedState
             }
             IconButton {
-                icon.source: "image://theme/icon-m-pause?" + (pressed
-                                                ? Theme.highlightColor
-                                                : Theme.primaryColor)
+                icon.source: "image://theme/icon-m-pause"
                 onClicked: {
                     audioRecorder.pause()
                 }
                 visible: audioRecorder.state == AudioRecorder.RecordingState && audioPlayer.playbackState == Audio.StoppedState
             }
             IconButton {
-                icon.source: "image://theme/icon-m-call-recording-off?" + (pressed
-                                                ? Theme.highlightColor
-                                                : Theme.primaryColor)
+                icon.source: "image://theme/icon-m-call-recording-off"
                 onClicked: {
                     audioRecorder.stop()
                 }
@@ -121,9 +123,7 @@ Page {
 
 
             IconButton {
-                icon.source: "image://theme/icon-m-play?" + (pressed
-                                                ? Theme.highlightColor
-                                                : Theme.primaryColor)
+                icon.source: "image://theme/icon-m-play"
                 onClicked: {
                     audioPlayer.play()
                 }
@@ -134,19 +134,16 @@ Page {
 
             }
             IconButton {
-                icon.source: "image://theme/icon-m-pause?" + (pressed
-                                                ? Theme.highlightColor
-                                                : Theme.primaryColor)
+                icon.source: "image://theme/icon-m-pause"
                 onClicked: {
                     audioPlayer.pause()
                 }
                 visible: audioRecorder.state == AudioRecorder.StoppedState && audioPlayer.playbackState == Audio.PlayingState
             }
 
+
             IconButton {
-                icon.source: "image://theme/icon-m-clear?" + (pressed
-                                                ? Theme.highlightColor
-                                                : Theme.primaryColor)
+                icon.source: "image://theme/icon-m-clear"
                 onClicked: {
                     audioPlayer.stop()
                 }

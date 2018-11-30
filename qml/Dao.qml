@@ -46,11 +46,12 @@ Item {
         //updateStatisticsValue();
     }
 
-    function updateRecord(id, Name, Note) {
+    function updateRecord(id, Name, Note,cb) {
         database = LocalStorage.openDatabaseSync("records", "1.0");
         database.transaction(function(tx) {
             tx.executeSql("UPDATE Records SET Name = ?, Note = ?
                                  WHERE id = ?", [Name, Note, id]);
+            cb && cb()
         });
         //updateStatisticsValue();
     }
@@ -64,10 +65,11 @@ Item {
         //updateStatisticsValue();
     }
 
-    function removeRecord(id) {
+    function removeRecord(id,cb) {
         database = LocalStorage.openDatabaseSync("records", "1.0");
         database.transaction(function(tx) {
             tx.executeSql("DELETE FROM Records WHERE id = ?", [id]);
+            cb && cb()
         });
         //updateStatisticsValue();
     }

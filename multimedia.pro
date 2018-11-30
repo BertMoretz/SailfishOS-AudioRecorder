@@ -20,7 +20,8 @@ DISTFILES += \
     qml/Dao.qml \
     qml/pages/RecordsListPage.qml \
     qml/pages/EditRecord.qml \
-    qml/pages/PlayRecord.qml
+    qml/pages/PlayRecord.qml \
+    qml/pages/DirectoryPage.qml
 
 
 SAILFISHAPP_ICONS = 86x86 108x108 128x128 172x172

@@ -4,16 +4,24 @@ import ".."
 import Multimedia 1.0
 
 Page {
+    Column {
+        id: col1
+    PageHeader {
+        id: header
+        title: qsTr("All Records")
+    }
     Dao {id: dao}
     EditRecord { id: dial}
     SilicaListView {
+        anchors.topMargin: header.height
+
         id: view
          ViewPlaceholder {
             enabled: view.count == 0
             text: "No records yet"
             hintText: "Record something"
          }
-         width: 720; height: 800
+         width: 720; height: 1000
          model: ListModel {
              id: listModel
 
@@ -52,8 +60,9 @@ Page {
                         })
                         var dialog = pageStack.push(dial,{"name": temp.Name, "note": temp.Note});
                         dialog.accepted.connect(function() {
-                            dao.updateRecord(id, dialog.name, dialog.note);
-                            selectRecs();
+                            dao.updateRecord(id, dialog.name, dialog.note,function(){
+                                col1.selectRecs();
+                            });
                         });
                     }
                 }
@@ -62,8 +71,10 @@ Page {
                     onClicked: {
                         console.log('delete', path)//REMOVE
                         fileApi.remove(path);
-                        dao.removeRecord(id);
-                        selectRecs();
+                        dao.removeRecord(id,function(){
+                            col1.selectRecs();
+                        });
+
                     }
                 }
             }
@@ -87,4 +98,6 @@ Page {
     Component.onCompleted: {
         selectRecs()
     }
+}
+
 }

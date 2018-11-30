@@ -43,10 +43,10 @@ AudioRecorder::AudioRecorder(QObject *parent) : QAudioRecorder(parent)
 }
 
 void AudioRecorder::configure(QString quality, QString containerFormat, QString codec) {
-    if (quality == "low" || quality == "normal" || quality == "high") {
+    if (quality == "low" || quality == "normal" || quality == "high" || quality == "veryhigh" || quality == "verylow") {
         QAudioEncoderSettings audioSettings;
         //audioSettings.setCodec("audio/PCM");
-        audioSettings.setQuality(quality == "low" ? QMultimedia::LowQuality : quality == "normal" ? QMultimedia::NormalQuality : QMultimedia::HighQuality);
+        audioSettings.setQuality(quality == "low" ? QMultimedia::LowQuality : quality == "normal" ? QMultimedia::NormalQuality : quality == "verylow" ? QMultimedia::VeryLowQuality : quality == "veryhigh" ? QMultimedia::VeryHighQuality : QMultimedia::HighQuality);
         this->setEncodingSettings(audioSettings);
     }
     if (containerFormat == "wav" || containerFormat == "ogg" || containerFormat == "avi") {

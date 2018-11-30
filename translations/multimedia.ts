@@ -16,4 +16,18 @@
         <translation type="unfinished"></translation>
     </message>
 </context>
+<context>
+    <name>DirectoryPage</name>
+    <message>
+        <source>No files</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>RecordsListPage</name>
+    <message>
+        <source>All Records</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
 </TS>

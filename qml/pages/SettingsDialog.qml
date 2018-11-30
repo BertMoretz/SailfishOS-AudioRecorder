@@ -21,9 +21,11 @@ Dialog {
             label: "Quality"
 
             menu: ContextMenu {
+                MenuItem { text: "verylow" }
                 MenuItem { text: "low" }
                 MenuItem { text: "normal" }
                 MenuItem { text: "high" }
+                MenuItem { text: "veryhigh" }
             }
 
             onCurrentItemChanged: {
@@ -70,22 +72,17 @@ Dialog {
             }
         }
 
-        ComboBox {
+        ValueButton {
             id: saveLocation
-            width: parent.width
             label: "Save Location"
-
-            menu: ContextMenu {
-                MenuItem { text: StandardPaths.download }
-                MenuItem { text: StandardPaths.documents }
-                MenuItem { text: StandardPaths.music }
-                MenuItem { text: StandardPaths.videos }
-            }
-
-            onCurrentItemChanged: {
-                if (initDone) {
-                    updateSettings();
-                }
+            onClicked: {
+                var dialog = pageStack.push(Qt.resolvedUrl('./DirectoryPage.qml'),{path:StandardPaths.home});
+                dialog.accepted.connect(function() {
+                    value = dialog.path;
+                    if (initDone) {
+                        updateSettings();
+                    }
+                });
             }
         }
     }
@@ -94,7 +91,7 @@ Dialog {
         dao.writeSettings({
             Quality: quality.currentItem.text,
             ContainerFormat: format.currentItem.text,
-            SaveLocation: saveLocation.currentItem.text,
+            SaveLocation: saveLocation.value,
             Codec: codec.currentItem.text,
         });
     }
@@ -111,11 +108,7 @@ Dialog {
                    format.currentIndex = i;
                }
            }
-           for (var i = 0; i < saveLocation.menu.children.length; i ++) {
-               if (saveLocation.menu.children[i].text === settings.SaveLocation) {
-                   saveLocation.currentIndex = i;
-               }
-           }
+           saveLocation.value = settings.SaveLocation;
            for (var i = 0; i < codec.menu.children.length; i ++) {
                if (codec.menu.children[i].text === settings.Codec) {
                    codec.currentIndex = i;

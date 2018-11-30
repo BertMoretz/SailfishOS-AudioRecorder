@@ -7,12 +7,6 @@ Dialog {
     property string name
     property string note
 
-    canAccept: {
-        if (nameField.text == "")
-            false
-        else
-            true
-    }
 
     Column {
             width: parent.width
@@ -44,10 +38,11 @@ Dialog {
             if (result == DialogResult.Accepted) {
                 name = nameField.text
                 note = textArea.text
-                close()
+                //close()
             }
             if (result == DialogResult.Rejected) {
-                close()
+                //close()
+                console.log("qwewqe");
             }
         }
 }
